@@ -52,13 +52,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_e3u",
+						"referenceName": "Source_Dataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_e3u",
+						"referenceName": "Destination_Dataset",
 						"type": "DatasetReference"
 					}
 				]
