@@ -373,7 +373,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "pptable_test"
+			"table": "salestable_test"
 		}
 	}
 }
