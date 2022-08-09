@@ -1,5 +1,5 @@
 {
-	"name": "Destination_Dataset",
+	"name": "DelimitedText1",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
@@ -10,11 +10,12 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "sales - limited.csv",
+				"fileName": "sales.csv",
 				"container": "blob1"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": []
