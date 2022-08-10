@@ -37,23 +37,27 @@
 			},
 			{
 				"name": "price",
-				"type": "int",
-				"precision": 10
+				"type": "decimal",
+				"precision": 10,
+				"scale": 1
 			},
 			{
 				"name": "value",
-				"type": "int",
-				"precision": 10
+				"type": "decimal",
+				"precision": 10,
+				"scale": 1
 			},
 			{
 				"name": "discount_amount",
-				"type": "int",
-				"precision": 10
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
 			},
 			{
 				"name": "total",
-				"type": "int",
-				"precision": 10
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
 			},
 			{
 				"name": "category",
@@ -162,13 +166,14 @@
 			},
 			{
 				"name": "discount_percent",
-				"type": "int",
-				"precision": 10
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
 			}
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "sales"
+			"table": "sales_table"
 		}
 	}
 }
