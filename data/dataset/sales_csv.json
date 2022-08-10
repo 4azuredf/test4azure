@@ -88,23 +88,23 @@
 				"type": "String"
 			},
 			{
-				"name": "Name Prefix",
+				"name": "name_prefix",
 				"type": "String"
 			},
 			{
-				"name": "First Name",
+				"name": "first_name",
 				"type": "String"
 			},
 			{
-				"name": "Middle Initial",
+				"name": "middle_initial",
 				"type": "String"
 			},
 			{
-				"name": "Last Name",
+				"name": "last_name",
 				"type": "String"
 			},
 			{
-				"name": "Gender",
+				"name": "gender",
 				"type": "String"
 			},
 			{
@@ -116,51 +116,51 @@
 				"type": "String"
 			},
 			{
-				"name": "E Mail",
+				"name": "e_mail",
 				"type": "String"
 			},
 			{
-				"name": "Customer Since",
+				"name": "customer_since",
 				"type": "String"
 			},
 			{
-				"name": "SSN",
+				"name": "ssn",
 				"type": "String"
 			},
 			{
-				"name": "Phone No. ",
+				"name": "phone_no ",
 				"type": "String"
 			},
 			{
-				"name": "Place Name",
+				"name": "place_name",
 				"type": "String"
 			},
 			{
-				"name": "County",
+				"name": "country",
 				"type": "String"
 			},
 			{
-				"name": "City",
+				"name": "city",
 				"type": "String"
 			},
 			{
-				"name": "State",
+				"name": "state",
 				"type": "String"
 			},
 			{
-				"name": "Zip",
+				"name": "zip",
 				"type": "String"
 			},
 			{
-				"name": "Region",
+				"name": "region",
 				"type": "String"
 			},
 			{
-				"name": "User Name",
+				"name": "user_name",
 				"type": "String"
 			},
 			{
-				"name": "Discount_Percent",
+				"name": "discount_percent",
 				"type": "String"
 			}
 		]
