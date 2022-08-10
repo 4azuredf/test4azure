@@ -18,6 +18,14 @@
 		"Blob_storage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Blob_storage'"
+		},
+		"Input_Blob_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Input_Blob'"
+		},
+		"Output_SQL_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Output_SQL'"
 		}
 	},
 	"variables": {
@@ -64,12 +72,211 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable')]",
+			"name": "[concat(parameters('factoryName'), '/Input_Blob')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('Input_Blob_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Output_SQL')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('Output_SQL_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sales_CSV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase",
+					"referenceName": "Input_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "sales - limited.csv",
+						"container": "input"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "order_id",
+						"type": "String"
+					},
+					{
+						"name": "order_date",
+						"type": "String"
+					},
+					{
+						"name": "status",
+						"type": "String"
+					},
+					{
+						"name": "item_id",
+						"type": "String"
+					},
+					{
+						"name": "sku",
+						"type": "String"
+					},
+					{
+						"name": "qty_ordered",
+						"type": "String"
+					},
+					{
+						"name": "price",
+						"type": "String"
+					},
+					{
+						"name": "value",
+						"type": "String"
+					},
+					{
+						"name": "discount_amount",
+						"type": "String"
+					},
+					{
+						"name": "total",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "payment_method",
+						"type": "String"
+					},
+					{
+						"name": "bi_st",
+						"type": "String"
+					},
+					{
+						"name": "cust_id",
+						"type": "String"
+					},
+					{
+						"name": "year",
+						"type": "String"
+					},
+					{
+						"name": "month",
+						"type": "String"
+					},
+					{
+						"name": "ref_num",
+						"type": "String"
+					},
+					{
+						"name": "name_prefix",
+						"type": "String"
+					},
+					{
+						"name": "first_name",
+						"type": "String"
+					},
+					{
+						"name": "middle_initial",
+						"type": "String"
+					},
+					{
+						"name": "last_name",
+						"type": "String"
+					},
+					{
+						"name": "gender",
+						"type": "String"
+					},
+					{
+						"name": "age",
+						"type": "String"
+					},
+					{
+						"name": "full_name",
+						"type": "String"
+					},
+					{
+						"name": "e_mail",
+						"type": "String"
+					},
+					{
+						"name": "customer_since",
+						"type": "String"
+					},
+					{
+						"name": "ssn",
+						"type": "String"
+					},
+					{
+						"name": "phone_no",
+						"type": "String"
+					},
+					{
+						"name": "place_name",
+						"type": "String"
+					},
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "city",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "zip",
+						"type": "String"
+					},
+					{
+						"name": "region",
+						"type": "String"
+					},
+					{
+						"name": "user_name",
+						"type": "String"
+					},
+					{
+						"name": "discount_percent",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Input_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sales_SQL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Output_SQL",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -82,7 +289,7 @@
 					},
 					{
 						"name": "order_date",
-						"type": "date"
+						"type": "varchar"
 					},
 					{
 						"name": "status",
@@ -104,23 +311,27 @@
 					},
 					{
 						"name": "price",
-						"type": "int",
-						"precision": 10
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
 					},
 					{
 						"name": "value",
-						"type": "int",
-						"precision": 10
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
 					},
 					{
 						"name": "discount_amount",
-						"type": "int",
-						"precision": 10
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
 					},
 					{
 						"name": "total",
-						"type": "int",
-						"precision": 10
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
 					},
 					{
 						"name": "category",
@@ -188,7 +399,7 @@
 					},
 					{
 						"name": "customer_since",
-						"type": "date"
+						"type": "varchar"
 					},
 					{
 						"name": "ssn",
@@ -229,453 +440,28 @@
 					},
 					{
 						"name": "discount_percent",
-						"type": "int",
-						"precision": 10
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "salestable_test"
+					"table": "sales_table"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase')]"
+				"[concat(variables('factoryId'), '/linkedServices/Output_SQL')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_input')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Blob_storage",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "sales - limited.csv",
-						"container": "blob1"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "order_id",
-						"type": "String"
-					},
-					{
-						"name": "order_date",
-						"type": "String"
-					},
-					{
-						"name": "status",
-						"type": "String"
-					},
-					{
-						"name": "item_id",
-						"type": "String"
-					},
-					{
-						"name": "sku",
-						"type": "String"
-					},
-					{
-						"name": "qty_ordered",
-						"type": "String"
-					},
-					{
-						"name": "price",
-						"type": "String"
-					},
-					{
-						"name": "value",
-						"type": "String"
-					},
-					{
-						"name": "discount_amount",
-						"type": "String"
-					},
-					{
-						"name": "total",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "payment_method",
-						"type": "String"
-					},
-					{
-						"name": "bi_st",
-						"type": "String"
-					},
-					{
-						"name": "cust_id",
-						"type": "String"
-					},
-					{
-						"name": "year",
-						"type": "String"
-					},
-					{
-						"name": "month",
-						"type": "String"
-					},
-					{
-						"name": "ref_num",
-						"type": "String"
-					},
-					{
-						"name": "Name Prefix",
-						"type": "String"
-					},
-					{
-						"name": "First Name",
-						"type": "String"
-					},
-					{
-						"name": "Middle Initial",
-						"type": "String"
-					},
-					{
-						"name": "Last Name",
-						"type": "String"
-					},
-					{
-						"name": "Gender",
-						"type": "String"
-					},
-					{
-						"name": "age",
-						"type": "String"
-					},
-					{
-						"name": "full_name",
-						"type": "String"
-					},
-					{
-						"name": "E Mail",
-						"type": "String"
-					},
-					{
-						"name": "Customer Since",
-						"type": "String"
-					},
-					{
-						"name": "SSN",
-						"type": "String"
-					},
-					{
-						"name": "Phone No. ",
-						"type": "String"
-					},
-					{
-						"name": "Place Name",
-						"type": "String"
-					},
-					{
-						"name": "County",
-						"type": "String"
-					},
-					{
-						"name": "City",
-						"type": "String"
-					},
-					{
-						"name": "State",
-						"type": "String"
-					},
-					{
-						"name": "Zip",
-						"type": "String"
-					},
-					{
-						"name": "Region",
-						"type": "String"
-					},
-					{
-						"name": "User Name",
-						"type": "String"
-					},
-					{
-						"name": "Discount_Percent",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Blob_storage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_output')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Blob_storage",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "sales - limited.csv",
-						"container": "blob1"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "order_id",
-						"type": "String"
-					},
-					{
-						"name": "order_date",
-						"type": "String"
-					},
-					{
-						"name": "status",
-						"type": "String"
-					},
-					{
-						"name": "item_id",
-						"type": "String"
-					},
-					{
-						"name": "sku",
-						"type": "String"
-					},
-					{
-						"name": "qty_ordered",
-						"type": "String"
-					},
-					{
-						"name": "price",
-						"type": "String"
-					},
-					{
-						"name": "value",
-						"type": "String"
-					},
-					{
-						"name": "discount_amount",
-						"type": "String"
-					},
-					{
-						"name": "total",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "payment_method",
-						"type": "String"
-					},
-					{
-						"name": "bi_st",
-						"type": "String"
-					},
-					{
-						"name": "cust_id",
-						"type": "String"
-					},
-					{
-						"name": "year",
-						"type": "String"
-					},
-					{
-						"name": "month",
-						"type": "String"
-					},
-					{
-						"name": "ref_num",
-						"type": "String"
-					},
-					{
-						"name": "Name Prefix",
-						"type": "String"
-					},
-					{
-						"name": "First Name",
-						"type": "String"
-					},
-					{
-						"name": "Middle Initial",
-						"type": "String"
-					},
-					{
-						"name": "Last Name",
-						"type": "String"
-					},
-					{
-						"name": "Gender",
-						"type": "String"
-					},
-					{
-						"name": "age",
-						"type": "String"
-					},
-					{
-						"name": "full_name",
-						"type": "String"
-					},
-					{
-						"name": "E Mail",
-						"type": "String"
-					},
-					{
-						"name": "Customer Since",
-						"type": "String"
-					},
-					{
-						"name": "SSN",
-						"type": "String"
-					},
-					{
-						"name": "Phone No. ",
-						"type": "String"
-					},
-					{
-						"name": "Place Name",
-						"type": "String"
-					},
-					{
-						"name": "County",
-						"type": "String"
-					},
-					{
-						"name": "City",
-						"type": "String"
-					},
-					{
-						"name": "State",
-						"type": "String"
-					},
-					{
-						"name": "Zip",
-						"type": "String"
-					},
-					{
-						"name": "Region",
-						"type": "String"
-					},
-					{
-						"name": "User Name",
-						"type": "String"
-					},
-					{
-						"name": "Discount_Percent",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Blob_storage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CopyData_csv_to_ds')]",
+			"name": "[concat(parameters('factoryName'), '/Blob_to_SQL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "CopyData_CSV_to_DS",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "blob1//sales.csv"
-							},
-							{
-								"name": "Destination",
-								"value": "blob1//sales.csv"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "DS_input",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DS_output",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_input')]",
-				"[concat(variables('factoryId'), '/datasets/DS_output')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_new')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "ConvertData_from_CSV_to_SQL",
+						"name": "Sales CSV to SQL",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -701,11 +487,9 @@
 							"sink": {
 								"type": "AzureSqlSink",
 								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
+								"sqlWriterUseTableLock": false
 							},
 							"enableStaging": false,
-							"dataIntegrationUnits": 2,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
@@ -729,8 +513,8 @@
 										},
 										"sink": {
 											"name": "order_date",
-											"type": "DateTime",
-											"physicalType": "date"
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
@@ -789,8 +573,10 @@
 										},
 										"sink": {
 											"name": "price",
-											"type": "Int32",
-											"physicalType": "int"
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
 										}
 									},
 									{
@@ -801,8 +587,10 @@
 										},
 										"sink": {
 											"name": "value",
-											"type": "Int32",
-											"physicalType": "int"
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
 										}
 									},
 									{
@@ -813,8 +601,10 @@
 										},
 										"sink": {
 											"name": "discount_amount",
-											"type": "Int32",
-											"physicalType": "int"
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
 										}
 									},
 									{
@@ -825,8 +615,10 @@
 										},
 										"sink": {
 											"name": "total",
-											"type": "Int32",
-											"physicalType": "int"
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
 										}
 									},
 									{
@@ -915,7 +707,7 @@
 									},
 									{
 										"source": {
-											"name": "Name Prefix",
+											"name": "name_prefix",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -927,7 +719,7 @@
 									},
 									{
 										"source": {
-											"name": "First Name",
+											"name": "first_name",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -939,7 +731,7 @@
 									},
 									{
 										"source": {
-											"name": "Middle Initial",
+											"name": "middle_initial",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -951,7 +743,7 @@
 									},
 									{
 										"source": {
-											"name": "Last Name",
+											"name": "last_name",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -963,7 +755,7 @@
 									},
 									{
 										"source": {
-											"name": "Gender",
+											"name": "gender",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -999,7 +791,7 @@
 									},
 									{
 										"source": {
-											"name": "E Mail",
+											"name": "e_mail",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1011,19 +803,19 @@
 									},
 									{
 										"source": {
-											"name": "Customer Since",
+											"name": "customer_since",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
 											"name": "customer_since",
-											"type": "DateTime",
-											"physicalType": "date"
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
 										"source": {
-											"name": "SSN",
+											"name": "ssn",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1035,7 +827,7 @@
 									},
 									{
 										"source": {
-											"name": "Phone No. ",
+											"name": "phone_no",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1047,7 +839,7 @@
 									},
 									{
 										"source": {
-											"name": "Place Name",
+											"name": "place_name",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1059,7 +851,7 @@
 									},
 									{
 										"source": {
-											"name": "County",
+											"name": "country",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1071,7 +863,7 @@
 									},
 									{
 										"source": {
-											"name": "City",
+											"name": "city",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1083,7 +875,7 @@
 									},
 									{
 										"source": {
-											"name": "State",
+											"name": "state",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1095,7 +887,7 @@
 									},
 									{
 										"source": {
-											"name": "Zip",
+											"name": "zip",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1107,7 +899,7 @@
 									},
 									{
 										"source": {
-											"name": "Region",
+											"name": "region",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1119,7 +911,7 @@
 									},
 									{
 										"source": {
-											"name": "User Name",
+											"name": "user_name",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -1131,14 +923,16 @@
 									},
 									{
 										"source": {
-											"name": "Discount_Percent",
+											"name": "discount_percent",
 											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
 											"name": "discount_percent",
-											"type": "Int32",
-											"physicalType": "int"
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
 										}
 									}
 								],
@@ -1151,14 +945,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_input",
+								"referenceName": "sales_CSV",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "AzureSqlTable",
+								"referenceName": "sales_SQL",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1172,8 +966,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_input')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable')]"
+				"[concat(variables('factoryId'), '/datasets/sales_CSV')]",
+				"[concat(variables('factoryId'), '/datasets/sales_SQL')]"
 			]
 		}
 	]

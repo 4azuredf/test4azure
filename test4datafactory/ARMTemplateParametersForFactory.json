@@ -13,6 +13,12 @@
 		},
 		"Blob_storage_connectionString": {
 			"value": ""
+		},
+		"Input_Blob_connectionString": {
+			"value": ""
+		},
+		"Output_SQL_connectionString": {
+			"value": ""
 		}
 	}
 }
