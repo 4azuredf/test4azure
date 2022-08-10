@@ -15,7 +15,7 @@
 			},
 			{
 				"name": "order_date",
-				"type": "date"
+				"type": "varchar"
 			},
 			{
 				"name": "status",
@@ -121,7 +121,7 @@
 			},
 			{
 				"name": "customer_since",
-				"type": "date"
+				"type": "varchar"
 			},
 			{
 				"name": "ssn",
