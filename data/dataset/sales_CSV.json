@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "sales - limited - Copy.csv",
+				"fileName": "sales - limited.csv",
 				"container": "input"
 			},
 			"columnDelimiter": ",",
