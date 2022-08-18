@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "CreatingFactTable",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
