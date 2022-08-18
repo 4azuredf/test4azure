@@ -18,7 +18,7 @@
 						"referenceName": "FactTable",
 						"type": "DatasetReference"
 					},
-					"name": "LoadingtoFactTable"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -83,7 +83,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DeletingDimensions",
 				"DerivedFactTable sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
 				"     input(",
 				"          order_id as integer,",
 				"          order_date as string,",
@@ -96,7 +96,12 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> LoadingtoFactTable"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          order_id,",
+				"          order_date,",
+				"          total",
+				"     )) ~> sink1"
 			]
 		}
 	}
