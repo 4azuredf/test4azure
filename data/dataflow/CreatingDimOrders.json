@@ -1,0 +1,114 @@
+{
+	"name": "CreatingDimOrders",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sales_SQL",
+						"type": "DatasetReference"
+					},
+					"name": "TempStage"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimOrders",
+						"type": "DatasetReference"
+					},
+					"name": "UploadingToSql"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ColumnsSelection"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          order_id as integer,",
+				"          order_date as string,",
+				"          status as string,",
+				"          item_id as integer,",
+				"          sku as string,",
+				"          qty_ordered as integer,",
+				"          price as decimal(18,3),",
+				"          value as decimal(18,3),",
+				"          discount_amount as decimal(18,3),",
+				"          total as decimal(18,3),",
+				"          category as string,",
+				"          payment_method as string,",
+				"          bi_st as string,",
+				"          cust_id as integer,",
+				"          year as integer,",
+				"          month as string,",
+				"          ref_num as integer,",
+				"          name_prefix as string,",
+				"          first_name as string,",
+				"          middle_initial as string,",
+				"          last_name as string,",
+				"          gender as string,",
+				"          age as integer,",
+				"          full_name as string,",
+				"          e_mail as string,",
+				"          customer_since as string,",
+				"          ssn as string,",
+				"          phone_no as string,",
+				"          place_name as string,",
+				"          country as string,",
+				"          city as string,",
+				"          state as string,",
+				"          zip as integer,",
+				"          region as string,",
+				"          user_name as string,",
+				"          discount_percent as decimal(18,3)",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> TempStage",
+				"TempStage select(mapColumn(",
+				"          id = order_id,",
+				"          status,",
+				"          value,",
+				"          discount_amount,",
+				"          payment_method,",
+				"          ref_num,",
+				"          discount_percent",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
+				"ColumnsSelection sink(allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     input(",
+				"          id as integer,",
+				"          status as string,",
+				"          ref_num as integer,",
+				"          discount_percent as decimal(18,3),",
+				"          discount_amount as decimal(18,3),",
+				"          payment_method as string,",
+				"          value as decimal(18,3)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id,",
+				"          status,",
+				"          ref_num,",
+				"          discount_percent,",
+				"          discount_amount,",
+				"          payment_method,",
+				"          value",
+				"     )) ~> UploadingToSql"
+			]
+		}
+	}
+}
