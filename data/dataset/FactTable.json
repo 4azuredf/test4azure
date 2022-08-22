@@ -41,9 +41,7 @@
 			},
 			{
 				"name": "date_id",
-				"type": "decimal",
-				"precision": 18,
-				"scale": 0
+				"type": "varchar"
 			}
 		],
 		"typeProperties": {

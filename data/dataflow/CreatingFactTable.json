@@ -12,19 +12,21 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "FactTable",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "select2"
 				},
 				{
-					"name": "surrogateKey1"
-				},
-				{
-					"name": "surrogateKey2"
-				},
-				{
-					"name": "surrogateKey3"
+					"name": "PrimaryKeyID"
 				}
 			],
 			"scriptLines": [
@@ -75,19 +77,42 @@
 				"          item_id,",
 				"          qty_ordered,",
 				"          total,",
-				"          cust_id",
+				"          cust_id,",
+				"          date_id = order_date",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
-				"surrogateKey2 keyGenerate(output({undefined} as long),",
+				"select2 keyGenerate(output(id as long),",
 				"     startAt: 1L,",
-				"     stepValue: 1L) ~> surrogateKey1",
-				"surrogateKey3 keyGenerate(output({undefined} as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> surrogateKey2",
-				"select2 keyGenerate(output({undefined} as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> surrogateKey3"
+				"     stepValue: 1L) ~> PrimaryKeyID",
+				"PrimaryKeyID sink(allowSchemaDrift: true,",
+				"     validateSchema: true,",
+				"     input(",
+				"          id as integer,",
+				"          order_id as integer,",
+				"          cust_id as integer,",
+				"          item_id as integer,",
+				"          qty_ordered as integer,",
+				"          total as decimal(18,3),",
+				"          date_id as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id,",
+				"          order_id,",
+				"          cust_id,",
+				"          item_id,",
+				"          qty_ordered,",
+				"          total,",
+				"          date_id",
+				"     )) ~> sink1"
 			]
 		}
 	}
