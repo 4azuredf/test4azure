@@ -9,7 +9,7 @@
 						"referenceName": "sales_SQL",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "TempStage"
 				}
 			],
 			"sinks": [
@@ -18,12 +18,12 @@
 						"referenceName": "FactTable",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "UploadingToSql"
 				}
 			],
 			"transformations": [
 				{
-					"name": "select2"
+					"name": "ColumnsSelection"
 				},
 				{
 					"name": "PrimaryKeyID"
@@ -71,8 +71,8 @@
 				"     allowSchemaDrift: false,",
 				"     validateSchema: true,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 select(mapColumn(",
+				"     format: 'table') ~> TempStage",
+				"TempStage select(mapColumn(",
 				"          order_id,",
 				"          item_id,",
 				"          qty_ordered,",
@@ -81,8 +81,8 @@
 				"          date_id = order_date",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
-				"select2 keyGenerate(output(id as long),",
+				"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
+				"ColumnsSelection keyGenerate(output(id as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> PrimaryKeyID",
 				"PrimaryKeyID sink(allowSchemaDrift: true,",
@@ -112,7 +112,7 @@
 				"          qty_ordered,",
 				"          total,",
 				"          date_id",
-				"     )) ~> sink1"
+				"     )) ~> UploadingToSql"
 			]
 		}
 	}
