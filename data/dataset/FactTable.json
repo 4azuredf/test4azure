@@ -9,18 +9,41 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
 				"name": "order_id",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "order_date",
-				"type": "varchar"
+				"name": "cust_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "item_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "qty_ordered",
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "total",
-				"type": "int",
-				"precision": 10
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "date_id",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
 			}
 		],
 		"typeProperties": {
