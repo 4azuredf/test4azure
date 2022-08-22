@@ -1,0 +1,53 @@
+{
+	"name": "DimOrders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Output_SQL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "status",
+				"type": "varchar"
+			},
+			{
+				"name": "ref_num",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "discount_percent",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "discount_amount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "payment_method",
+				"type": "varchar"
+			},
+			{
+				"name": "value",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dim_orders"
+		}
+	}
+}
