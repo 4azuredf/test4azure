@@ -9,21 +9,13 @@
 						"referenceName": "sales_SQL",
 						"type": "DatasetReference"
 					},
-					"name": "TempStage"
+					"name": "source1"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "DimOrders",
-						"type": "DatasetReference"
-					},
-					"name": "UploadingToSql"
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
-					"name": "ColumnsSelection"
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -68,46 +60,17 @@
 				"     allowSchemaDrift: false,",
 				"     validateSchema: true,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> TempStage",
-				"TempStage select(mapColumn(",
-				"          id = order_id,",
+				"     format: 'table') ~> source1",
+				"source1 select(mapColumn(",
+				"          order_id,",
 				"          status,",
 				"          value,",
 				"          discount_amount,",
-				"          payment_method,",
 				"          ref_num,",
 				"          discount_percent",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
-				"ColumnsSelection sink(allowSchemaDrift: false,",
-				"     validateSchema: true,",
-				"     input(",
-				"          id as integer,",
-				"          status as string,",
-				"          ref_num as integer,",
-				"          discount_percent as decimal(18,3),",
-				"          discount_amount as decimal(18,3),",
-				"          payment_method as string,",
-				"          value as decimal(18,3)",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          id,",
-				"          status,",
-				"          ref_num,",
-				"          discount_percent,",
-				"          discount_amount,",
-				"          payment_method,",
-				"          value",
-				"     )) ~> UploadingToSql"
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}
