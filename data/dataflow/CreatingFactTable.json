@@ -9,24 +9,22 @@
 						"referenceName": "sales_SQL",
 						"type": "DatasetReference"
 					},
-					"name": "TempStageFacts"
+					"name": "source1"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "FactTable",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
-					"name": "DerivedFactTable"
+					"name": "select2"
 				},
 				{
-					"name": "DeletingDimensions"
+					"name": "surrogateKey1"
+				},
+				{
+					"name": "surrogateKey2"
+				},
+				{
+					"name": "surrogateKey3"
 				}
 			],
 			"scriptLines": [
@@ -71,37 +69,25 @@
 				"     allowSchemaDrift: false,",
 				"     validateSchema: true,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> TempStageFacts",
-				"DeletingDimensions derive(order_id = order_id,",
-				"          order_date = toDate(order_date,'mm/dd/yyyy','en-US'),",
-				"          total = total) ~> DerivedFactTable",
-				"TempStageFacts select(mapColumn(",
+				"     format: 'table') ~> source1",
+				"source1 select(mapColumn(",
 				"          order_id,",
-				"          order_date,",
-				"          total",
+				"          item_id,",
+				"          qty_ordered,",
+				"          total,",
+				"          cust_id",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> DeletingDimensions",
-				"DerivedFactTable sink(allowSchemaDrift: true,",
-				"     validateSchema: true,",
-				"     input(",
-				"          order_id as integer,",
-				"          order_date as string,",
-				"          total as integer",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          order_id,",
-				"          order_date,",
-				"          total",
-				"     )) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"surrogateKey2 keyGenerate(output({undefined} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"surrogateKey3 keyGenerate(output({undefined} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey2",
+				"select2 keyGenerate(output({undefined} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey3"
 			]
 		}
 	}
