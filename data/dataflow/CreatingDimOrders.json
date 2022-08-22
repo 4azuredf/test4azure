@@ -24,9 +24,6 @@
 			"transformations": [
 				{
 					"name": "ColumnsSelection"
-				},
-				{
-					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -83,8 +80,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
-				"ColumnsSelection derive(fk_order_id = add(id, value)) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: false,",
+				"ColumnsSelection sink(allowSchemaDrift: false,",
 				"     validateSchema: true,",
 				"     input(",
 				"          id as integer,",
