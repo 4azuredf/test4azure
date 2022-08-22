@@ -12,7 +12,15 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimOrders",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "select1"
@@ -62,15 +70,44 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
 				"source1 select(mapColumn(",
-				"          order_id,",
+				"          id = order_id,",
 				"          status,",
 				"          value,",
 				"          discount_amount,",
 				"          ref_num,",
-				"          discount_percent",
+				"          discount_percent,",
+				"          payment_method",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     input(",
+				"          id as integer,",
+				"          status as string,",
+				"          ref_num as integer,",
+				"          discount_percent as decimal(18,3),",
+				"          discount_amount as decimal(18,3),",
+				"          payment_method as string,",
+				"          value as decimal(18,3)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id,",
+				"          status,",
+				"          ref_num,",
+				"          discount_percent,",
+				"          discount_amount,",
+				"          payment_method,",
+				"          value",
+				"     )) ~> sink1"
 			]
 		}
 	}
