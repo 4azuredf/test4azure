@@ -18,7 +18,7 @@
 						"referenceName": "DimOrders",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "UploadingToSql"
 				}
 			],
 			"transformations": [
@@ -107,7 +107,7 @@
 				"          discount_amount,",
 				"          payment_method,",
 				"          value",
-				"     )) ~> sink1"
+				"     )) ~> UploadingToSql"
 			]
 		}
 	}
