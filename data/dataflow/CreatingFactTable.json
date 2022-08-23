@@ -78,7 +78,8 @@
 				"          qty_ordered,",
 				"          total,",
 				"          cust_id,",
-				"          date_id = order_date",
+				"          date_id = order_date,",
+				"          region_id = zip",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
@@ -94,7 +95,8 @@
 				"          item_id as integer,",
 				"          qty_ordered as integer,",
 				"          total as decimal(18,3),",
-				"          date_id as string",
+				"          date_id as string,",
+				"          region_id as integer",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -112,7 +114,8 @@
 				"          item_id,",
 				"          qty_ordered,",
 				"          total,",
-				"          date_id",
+				"          date_id,",
+				"          region_id",
 				"     )) ~> UploadingToSql"
 			]
 		}

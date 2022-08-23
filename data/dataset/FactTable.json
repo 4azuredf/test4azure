@@ -41,7 +41,12 @@
 			},
 			{
 				"name": "date_id",
-				"type": "varchar"
+				"type": "nvarchar"
+			},
+			{
+				"name": "region_id",
+				"type": "int",
+				"precision": 10
 			}
 		],
 		"typeProperties": {
