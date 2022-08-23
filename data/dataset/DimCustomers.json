@@ -1,0 +1,63 @@
+{
+	"name": "DimCustomers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Output_SQL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name_prefix",
+				"type": "varchar"
+			},
+			{
+				"name": "first_name",
+				"type": "varchar"
+			},
+			{
+				"name": "middle_initial",
+				"type": "varchar"
+			},
+			{
+				"name": "last_name",
+				"type": "varchar"
+			},
+			{
+				"name": "gender",
+				"type": "varchar"
+			},
+			{
+				"name": "age",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "customer_since",
+				"type": "varchar"
+			},
+			{
+				"name": "phone_no",
+				"type": "varchar"
+			},
+			{
+				"name": "e_mail",
+				"type": "varchar"
+			},
+			{
+				"name": "user_name",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dim_customers"
+		}
+	}
+}
