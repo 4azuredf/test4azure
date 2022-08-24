@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "CreatingDimDate",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -9,16 +9,21 @@
 						"referenceName": "sales_SQL",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "TempStage"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimDate",
+						"type": "DatasetReference"
+					},
+					"name": "UploadingToSql"
+				}
+			],
 			"transformations": [
 				{
-					"name": "select1"
-				},
-				{
-					"name": "derivedColumn1"
+					"name": "ColumnsSelection"
 				}
 			],
 			"scriptLines": [
@@ -63,13 +68,35 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 select(mapColumn(",
-				"          order_date",
+				"     format: 'table') ~> TempStage",
+				"TempStage select(mapColumn(",
+				"          id = order_date,",
+				"          year,",
+				"          month",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(order_date = toTimestamp(order_date,'mm/dd/yyy')) ~> derivedColumn1"
+				"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
+				"ColumnsSelection sink(allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     input(",
+				"          id as string,",
+				"          year as integer,",
+				"          month as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id,",
+				"          year,",
+				"          month",
+				"     )) ~> UploadingToSql"
 			]
 		}
 	}

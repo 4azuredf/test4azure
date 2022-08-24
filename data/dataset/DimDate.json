@@ -19,8 +19,7 @@
 			},
 			{
 				"name": "month",
-				"type": "int",
-				"precision": 10
+				"type": "varchar"
 			}
 		],
 		"typeProperties": {
