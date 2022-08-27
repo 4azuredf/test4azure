@@ -98,6 +98,317 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DimCustomers')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Output_SQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "name_prefix",
+						"type": "varchar"
+					},
+					{
+						"name": "first_name",
+						"type": "varchar"
+					},
+					{
+						"name": "middle_initial",
+						"type": "varchar"
+					},
+					{
+						"name": "last_name",
+						"type": "varchar"
+					},
+					{
+						"name": "gender",
+						"type": "varchar"
+					},
+					{
+						"name": "age",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "customer_since",
+						"type": "varchar"
+					},
+					{
+						"name": "phone_no",
+						"type": "varchar"
+					},
+					{
+						"name": "e_mail",
+						"type": "varchar"
+					},
+					{
+						"name": "user_name",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_customers"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Output_SQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimDate')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Output_SQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "varchar"
+					},
+					{
+						"name": "year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "month",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_date"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Output_SQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimItems')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Output_SQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "price",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "category",
+						"type": "varchar"
+					},
+					{
+						"name": "sku",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_items"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Output_SQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimOrders')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Output_SQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "status",
+						"type": "varchar"
+					},
+					{
+						"name": "ref_num",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "discount_percent",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "discount_amount",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "payment_method",
+						"type": "varchar"
+					},
+					{
+						"name": "value",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_orders"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Output_SQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DimRegions')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Output_SQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "region",
+						"type": "varchar"
+					},
+					{
+						"name": "country",
+						"type": "varchar"
+					},
+					{
+						"name": "state",
+						"type": "varchar"
+					},
+					{
+						"name": "city",
+						"type": "varchar"
+					},
+					{
+						"name": "place_name",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_regions"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Output_SQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FactTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Output_SQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "order_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "cust_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "item_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "qty_ordered",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "total",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "date_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "region_id",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "fact_table"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Output_SQL')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/sales_CSV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -455,7 +766,729 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Blob_to_SQL')]",
+			"name": "[concat(parameters('factoryName'), '/CreatingDimCustomers')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "sales_SQL",
+								"type": "DatasetReference"
+							},
+							"name": "TempStage"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DimCustomers",
+								"type": "DatasetReference"
+							},
+							"name": "UploadingToSql"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ColumnsSelection"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          order_id as integer,",
+						"          order_date as string,",
+						"          status as string,",
+						"          item_id as integer,",
+						"          sku as string,",
+						"          qty_ordered as integer,",
+						"          price as decimal(18,3),",
+						"          value as decimal(18,3),",
+						"          discount_amount as decimal(18,3),",
+						"          total as decimal(18,3),",
+						"          category as string,",
+						"          payment_method as string,",
+						"          bi_st as string,",
+						"          cust_id as integer,",
+						"          year as integer,",
+						"          month as string,",
+						"          ref_num as integer,",
+						"          name_prefix as string,",
+						"          first_name as string,",
+						"          middle_initial as string,",
+						"          last_name as string,",
+						"          gender as string,",
+						"          age as integer,",
+						"          full_name as string,",
+						"          e_mail as string,",
+						"          customer_since as string,",
+						"          ssn as string,",
+						"          phone_no as string,",
+						"          place_name as string,",
+						"          country as string,",
+						"          city as string,",
+						"          state as string,",
+						"          zip as integer,",
+						"          region as string,",
+						"          user_name as string,",
+						"          discount_percent as decimal(18,3)",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> TempStage",
+						"TempStage select(mapColumn(",
+						"          id = cust_id,",
+						"          name_prefix,",
+						"          first_name,",
+						"          middle_initial,",
+						"          last_name,",
+						"          gender,",
+						"          age,",
+						"          e_mail,",
+						"          customer_since,",
+						"          phone_no,",
+						"          user_name",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
+						"ColumnsSelection sink(allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     input(",
+						"          id as integer,",
+						"          name_prefix as string,",
+						"          first_name as string,",
+						"          middle_initial as string,",
+						"          last_name as string,",
+						"          gender as string,",
+						"          age as integer,",
+						"          customer_since as string,",
+						"          phone_no as string,",
+						"          e_mail as string,",
+						"          user_name as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          id,",
+						"          name_prefix,",
+						"          first_name,",
+						"          middle_initial,",
+						"          last_name,",
+						"          gender,",
+						"          age,",
+						"          customer_since,",
+						"          phone_no,",
+						"          e_mail,",
+						"          user_name",
+						"     )) ~> UploadingToSql"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sales_SQL')]",
+				"[concat(variables('factoryId'), '/datasets/DimCustomers')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CreatingDimDate')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "sales_SQL",
+								"type": "DatasetReference"
+							},
+							"name": "TempStage"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DimDate",
+								"type": "DatasetReference"
+							},
+							"name": "UploadingToSql"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ColumnsSelection"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          order_id as integer,",
+						"          order_date as string,",
+						"          status as string,",
+						"          item_id as integer,",
+						"          sku as string,",
+						"          qty_ordered as integer,",
+						"          price as decimal(18,3),",
+						"          value as decimal(18,3),",
+						"          discount_amount as decimal(18,3),",
+						"          total as decimal(18,3),",
+						"          category as string,",
+						"          payment_method as string,",
+						"          bi_st as string,",
+						"          cust_id as integer,",
+						"          year as integer,",
+						"          month as string,",
+						"          ref_num as integer,",
+						"          name_prefix as string,",
+						"          first_name as string,",
+						"          middle_initial as string,",
+						"          last_name as string,",
+						"          gender as string,",
+						"          age as integer,",
+						"          full_name as string,",
+						"          e_mail as string,",
+						"          customer_since as string,",
+						"          ssn as string,",
+						"          phone_no as string,",
+						"          place_name as string,",
+						"          country as string,",
+						"          city as string,",
+						"          state as string,",
+						"          zip as integer,",
+						"          region as string,",
+						"          user_name as string,",
+						"          discount_percent as decimal(18,3)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> TempStage",
+						"TempStage select(mapColumn(",
+						"          id = order_date,",
+						"          year,",
+						"          month",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
+						"ColumnsSelection sink(allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     input(",
+						"          id as string,",
+						"          year as integer,",
+						"          month as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          id,",
+						"          year,",
+						"          month",
+						"     )) ~> UploadingToSql"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sales_SQL')]",
+				"[concat(variables('factoryId'), '/datasets/DimDate')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CreatingDimItems')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "sales_SQL",
+								"type": "DatasetReference"
+							},
+							"name": "TempStage"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DimItems",
+								"type": "DatasetReference"
+							},
+							"name": "UploadingToSQL"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ColumnsSelection"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          order_id as integer,",
+						"          order_date as string,",
+						"          status as string,",
+						"          item_id as integer,",
+						"          sku as string,",
+						"          qty_ordered as integer,",
+						"          price as decimal(18,3),",
+						"          value as decimal(18,3),",
+						"          discount_amount as decimal(18,3),",
+						"          total as decimal(18,3),",
+						"          category as string,",
+						"          payment_method as string,",
+						"          bi_st as string,",
+						"          cust_id as integer,",
+						"          year as integer,",
+						"          month as string,",
+						"          ref_num as integer,",
+						"          name_prefix as string,",
+						"          first_name as string,",
+						"          middle_initial as string,",
+						"          last_name as string,",
+						"          gender as string,",
+						"          age as integer,",
+						"          full_name as string,",
+						"          e_mail as string,",
+						"          customer_since as string,",
+						"          ssn as string,",
+						"          phone_no as string,",
+						"          place_name as string,",
+						"          country as string,",
+						"          city as string,",
+						"          state as string,",
+						"          zip as integer,",
+						"          region as string,",
+						"          user_name as string,",
+						"          discount_percent as decimal(18,3)",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> TempStage",
+						"TempStage select(mapColumn(",
+						"          id = item_id,",
+						"          sku,",
+						"          price,",
+						"          category",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
+						"ColumnsSelection sink(allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     input(",
+						"          id as integer,",
+						"          price as decimal(18,3),",
+						"          category as string,",
+						"          sku as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          id,",
+						"          price,",
+						"          category,",
+						"          sku",
+						"     )) ~> UploadingToSQL"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sales_SQL')]",
+				"[concat(variables('factoryId'), '/datasets/DimItems')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CreatingDimOrders')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "sales_SQL",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DimOrders",
+								"type": "DatasetReference"
+							},
+							"name": "UploadingToSql"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          order_id as integer,",
+						"          order_date as string,",
+						"          status as string,",
+						"          item_id as integer,",
+						"          sku as string,",
+						"          qty_ordered as integer,",
+						"          price as decimal(18,3),",
+						"          value as decimal(18,3),",
+						"          discount_amount as decimal(18,3),",
+						"          total as decimal(18,3),",
+						"          category as string,",
+						"          payment_method as string,",
+						"          bi_st as string,",
+						"          cust_id as integer,",
+						"          year as integer,",
+						"          month as string,",
+						"          ref_num as integer,",
+						"          name_prefix as string,",
+						"          first_name as string,",
+						"          middle_initial as string,",
+						"          last_name as string,",
+						"          gender as string,",
+						"          age as integer,",
+						"          full_name as string,",
+						"          e_mail as string,",
+						"          customer_since as string,",
+						"          ssn as string,",
+						"          phone_no as string,",
+						"          place_name as string,",
+						"          country as string,",
+						"          city as string,",
+						"          state as string,",
+						"          zip as integer,",
+						"          region as string,",
+						"          user_name as string,",
+						"          discount_percent as decimal(18,3)",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source1",
+						"source1 select(mapColumn(",
+						"          id = order_id,",
+						"          status,",
+						"          value,",
+						"          discount_amount,",
+						"          ref_num,",
+						"          discount_percent,",
+						"          payment_method",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 sink(allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     input(",
+						"          id as integer,",
+						"          status as string,",
+						"          ref_num as integer,",
+						"          discount_percent as decimal(18,3),",
+						"          discount_amount as decimal(18,3),",
+						"          payment_method as string,",
+						"          value as decimal(18,3)",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          id,",
+						"          status,",
+						"          ref_num,",
+						"          discount_percent,",
+						"          discount_amount,",
+						"          payment_method,",
+						"          value",
+						"     )) ~> UploadingToSql"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sales_SQL')]",
+				"[concat(variables('factoryId'), '/datasets/DimOrders')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CreatingDimRegions')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "sales_SQL",
+								"type": "DatasetReference"
+							},
+							"name": "TempStage"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DimRegions",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ColumnsSelection"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          order_id as integer,",
+						"          order_date as string,",
+						"          status as string,",
+						"          item_id as integer,",
+						"          sku as string,",
+						"          qty_ordered as integer,",
+						"          price as decimal(18,3),",
+						"          value as decimal(18,3),",
+						"          discount_amount as decimal(18,3),",
+						"          total as decimal(18,3),",
+						"          category as string,",
+						"          payment_method as string,",
+						"          bi_st as string,",
+						"          cust_id as integer,",
+						"          year as integer,",
+						"          month as string,",
+						"          ref_num as integer,",
+						"          name_prefix as string,",
+						"          first_name as string,",
+						"          middle_initial as string,",
+						"          last_name as string,",
+						"          gender as string,",
+						"          age as integer,",
+						"          full_name as string,",
+						"          e_mail as string,",
+						"          customer_since as string,",
+						"          ssn as string,",
+						"          phone_no as string,",
+						"          place_name as string,",
+						"          country as string,",
+						"          city as string,",
+						"          state as string,",
+						"          zip as integer,",
+						"          region as string,",
+						"          user_name as string,",
+						"          discount_percent as decimal(18,3)",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> TempStage",
+						"TempStage select(mapColumn(",
+						"          place_name,",
+						"          country,",
+						"          city,",
+						"          state,",
+						"          id = zip,",
+						"          region",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
+						"ColumnsSelection sink(allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     input(",
+						"          id as integer,",
+						"          region as string,",
+						"          country as string,",
+						"          state as string,",
+						"          city as string,",
+						"          place_name as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          id,",
+						"          region,",
+						"          country,",
+						"          state,",
+						"          city,",
+						"          place_name",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sales_SQL')]",
+				"[concat(variables('factoryId'), '/datasets/DimRegions')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CreatingFactTable')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "sales_SQL",
+								"type": "DatasetReference"
+							},
+							"name": "TempStage"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactTable",
+								"type": "DatasetReference"
+							},
+							"name": "UploadingToSql"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ColumnsSelection"
+						},
+						{
+							"name": "PrimaryKeyID"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          order_id as integer,",
+						"          order_date as string,",
+						"          status as string,",
+						"          item_id as integer,",
+						"          sku as string,",
+						"          qty_ordered as integer,",
+						"          price as decimal(18,3),",
+						"          value as decimal(18,3),",
+						"          discount_amount as decimal(18,3),",
+						"          total as decimal(18,3),",
+						"          category as string,",
+						"          payment_method as string,",
+						"          bi_st as string,",
+						"          cust_id as integer,",
+						"          year as integer,",
+						"          month as string,",
+						"          ref_num as integer,",
+						"          name_prefix as string,",
+						"          first_name as string,",
+						"          middle_initial as string,",
+						"          last_name as string,",
+						"          gender as string,",
+						"          age as integer,",
+						"          full_name as string,",
+						"          e_mail as string,",
+						"          customer_since as string,",
+						"          ssn as string,",
+						"          phone_no as string,",
+						"          place_name as string,",
+						"          country as string,",
+						"          city as string,",
+						"          state as string,",
+						"          zip as integer,",
+						"          region as string,",
+						"          user_name as string,",
+						"          discount_percent as decimal(18,3)",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> TempStage",
+						"TempStage select(mapColumn(",
+						"          order_id,",
+						"          item_id,",
+						"          qty_ordered,",
+						"          total,",
+						"          cust_id,",
+						"          date_id = order_date,",
+						"          region_id = zip",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ColumnsSelection",
+						"ColumnsSelection keyGenerate(output(id as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> PrimaryKeyID",
+						"PrimaryKeyID sink(allowSchemaDrift: true,",
+						"     validateSchema: true,",
+						"     input(",
+						"          id as integer,",
+						"          order_id as integer,",
+						"          cust_id as integer,",
+						"          item_id as integer,",
+						"          qty_ordered as integer,",
+						"          total as decimal(18,3),",
+						"          date_id as string,",
+						"          region_id as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          id,",
+						"          order_id,",
+						"          cust_id,",
+						"          item_id,",
+						"          qty_ordered,",
+						"          total,",
+						"          date_id,",
+						"          region_id",
+						"     )) ~> UploadingToSql"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sales_SQL')]",
+				"[concat(variables('factoryId'), '/datasets/FactTable')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -957,6 +1990,228 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Fact Table Creation",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Sales CSV to SQL",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CreatingFactTable",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"TempStage": {},
+									"UploadingToSql": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "Dim Orders Creation",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Fact Table Creation",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CreatingDimOrders",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"UploadingToSql": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "Dim Items Creation",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Dim Orders Creation",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CreatingDimItems",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"TempStage": {},
+									"UploadingToSQL": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "Dim Customers Creation",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Dim Items Creation",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CreatingDimCustomers",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"TempStage": {},
+									"UploadingToSql": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "Dim Regions Creation",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Dim Customers Creation",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CreatingDimRegions",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"TempStage": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "Dim Date Creation",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Dim Regions Creation",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CreatingDimDate",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"TempStage": {},
+									"UploadingToSql": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -967,7 +2222,13 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/sales_CSV')]",
-				"[concat(variables('factoryId'), '/datasets/sales_SQL')]"
+				"[concat(variables('factoryId'), '/datasets/sales_SQL')]",
+				"[concat(variables('factoryId'), '/dataflows/CreatingFactTable')]",
+				"[concat(variables('factoryId'), '/dataflows/CreatingDimOrders')]",
+				"[concat(variables('factoryId'), '/dataflows/CreatingDimItems')]",
+				"[concat(variables('factoryId'), '/dataflows/CreatingDimCustomers')]",
+				"[concat(variables('factoryId'), '/dataflows/CreatingDimRegions')]",
+				"[concat(variables('factoryId'), '/dataflows/CreatingDimDate')]"
 			]
 		}
 	]
